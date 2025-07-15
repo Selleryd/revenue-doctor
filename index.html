@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue Doctor - AI-Powered Restaurant Revenue Recovery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        'secondary': '#10b981',
+                        'accent': '#f59e0b',
+                        'gray-50': '#f9fafb',
+                        'gray-900': '#111827',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-soft': 'pulseSoft 2s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulseSoft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        
+        .revenue-display {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #0ea5e9;
+        }
+        
+        .guest-activity {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-left: 4px solid #10b981;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-primary to-primary-dark rounded-lg flex items-center justify-center">
+                        <i class="fas fa-chart-line text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">Revenue Doctor</span>
+                    <span class="text-xs bg-secondary text-white px-2 py-1 rounded-full font-medium">AI</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-gray-900 font-medium">Features</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-gray-900 font-medium">Pricing</a>
+                    <a href="#testimonials" class="text-gray-600 hover:text-gray-900 font-medium">Reviews</a>
+                </div>
+                <button class="btn-primary text-white px-6 py-2 rounded-lg font-medium">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-20 bg-gradient-to-br from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8 animate-slide-up">
+                    <div class="inline-flex items-center space-x-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
+                        <i class="fas fa-sparkles"></i>
+                        <span>AI-Powered Revenue Recovery</span>
+                    </div>
+                    
+                    <h1 class="text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
+                        Turn Lost Customers Into 
+                        <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            Recurring Revenue
+                        </span>
+                    </h1>
+                    
+                    <p class="text-xl text-gray-600 leading-relaxed max-w-2xl">
+                        Our AI automatically recovers lost revenue by re-engaging customers who haven't returned. 
+                        <span class="font-semibold text-gray-900">No manual work required.</span>
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg inline-flex items-center justify-center group">
+                            Get Started Today
+                            <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                        <button class="border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-lg font-semibold hover:border-primary hover:text-primary transition-all duration-300 inline-flex items-center justify-center">
+                            <i class="fas fa-play mr-3"></i>
+                            Watch Demo
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-8 pt-8">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-primary" data-count="47">0</div>
+                            <div class="text-sm text-gray-500">% Revenue Increase</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-secondary" data-count="89">0</div>
+                            <div class="text-sm text-gray-500">% Customer Return Rate</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-accent" data-count="24">0</div>
+                            <div class="text-sm text-gray-500">Hours to Setup</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Revenue Dashboard -->
+                <div class="relative">
+                    <div class="glass-card p-8 rounded-2xl shadow-xl animate-float">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-900">Revenue Recovery Dashboard</h3>
+                                <div class="w-3 h-3 bg-secondary rounded-full animate-pulse-soft"></div>
+                            </div>
+                            
+                            <!-- Live Revenue Counter -->
+                            <div class="revenue-display p-6 rounded-xl">
+                                <div class="text-sm text-gray-600 mb-2">Today's Recovered Revenue</div>
+                                <div class="text-4xl font-bold text-primary" id="liveRevenue">$0</div>
+                                <div class="text-xs text-gray-500 mt-1">Updates in real-time</div>
+                            </div>
+                            
+                            <!-- Guest Activity Feed -->
+                            <div class="space-y-3">
+                                <div class="text-sm font-semibold text-gray-700 flex items-center">
+                                    <i class="fas fa-users mr-2 text-secondary"></i>
+                                    Recent Customer Activity
+                                </div>
+                                <div id="guestFeed" class="space-y-2">
+                                    <!-- Dynamic guest activity will be inserted here -->
+                                </div>
+                            </div>
+                            
+                            <!-- Metrics Grid -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="metric-card p-4 rounded-lg">
+                                    <div class="text-2xl font-bold text-primary">73%</div>
+                                    <div class="text-xs text-gray-600">Recovery Rate</div>
+                                </div>
+                                <div class="metric-card p-4 rounded-lg">
+                                    <div class="text-2xl font-bold text-secondary">156</div>
+                                    <div class="text-xs text-gray-600">Active Campaigns</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center space-x-2 bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Revenue Leak Detection</span>
+                </div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                    You're Losing Revenue Every Day
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Most businesses lose 60-80% of their customers after the first purchase. 
+                    That's thousands in lost revenue walking out your door.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-8 rounded-2xl bg-red-50 border border-red-100">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-user-times text-2xl text-red-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Lost Customers</h3>
+                    <p class="text-gray-600 mb-4">85% of first-time customers never return without proper follow-up</p>
+                    <div class="text-2xl font-bold text-red-600">-$18,000/mo</div>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl bg-orange-50 border border-orange-100">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-calendar-times text-2xl text-orange-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Missed Opportunities</h3>
+                    <p class="text-gray-600 mb-4">No-shows and cancellations leave money on the table</p>
+                    <div class="text-2xl font-bold text-orange-600">-$2,400/mo</div>
+                </div>
+                
+                <div class="text-center p-8 rounded-2xl bg-yellow-50 border border-yellow-100">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-envelope text-2xl text-yellow-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Ignored Marketing</h3>
+                    <p class="text-gray-600 mb-4">Generic campaigns get 2% open rates and zero results</p>
+                    <div class="text-2xl font-bold text-yellow-600">-$5,000/mo</div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 p-8 rounded-2xl bg-gray-50 border border-gray-200">
+                <div class="text-3xl font-bold text-red-600 mb-2">
+                    You're losing $25,400+ every month
+                </div>
+                <p class="text-gray-600">in preventable revenue leaks</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center space-x-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
+                    <i class="fas fa-robot"></i>
+                    <span>AI-Powered Solution</span>
+                </div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                    Automated Revenue Recovery
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Our AI system works 24/7 to bring back lost customers and maximize your revenue potential.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                    <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-brain text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Smart Customer Segmentation</h3>
+                    <p class="text-gray-600">AI analyzes customer behavior to create personalized re-engagement campaigns</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                    <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-clock text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Perfect Timing</h3>
+                    <p class="text-gray-600">Sends messages at optimal times when customers are most likely to respond</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                    <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-heart text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Personalized Offers</h3>
+                    <p class="text-gray-600">Creates custom incentives based on individual customer preferences and history</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                    <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Real-time Analytics</h3>
+                    <p class="text-gray-600">Track recovery rates, revenue impact, and campaign performance in real-time</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                    <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-sync text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Automated Workflows</h3>
+                    <p class="text-gray-600">Set it once and let AI handle all customer re-engagement automatically</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                    <div class="feature-icon w-12 h-12 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Privacy Compliant</h3>
+                    <p class="text-gray-600">Fully GDPR and CCPA compliant with enterprise-grade security</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Revenue Calculator -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center space-x-2 bg-secondary/10 text-secondary px-4 py-2 rounded-full text-sm font-medium mb-6">
+                    <i class="fas fa-calculator"></i>
+                    <span>Revenue Calculator</span>
+                </div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                    Calculate Your Revenue Recovery Potential
+                </h2>
+                <p class="text-xl text-gray-600">See exactly how much revenue you could recover with our AI system</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200">
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <!-- Calculator Controls -->
+                        <div class="space-y-8">
+                            <h3 class="text-xl font-bold text-gray-900 mb-6">Your Business Metrics</h3>
+                            
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">
+                                        Lost Customers Per Month
+                                    </label>
+                                    <input type="range" min="10" max="500" value="100" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider" id="lostCustomers">
+                                    <div class="flex justify-between text-sm text-gray-500 mt-2">
+                                        <span>10</span>
+                                        <span class="text-primary font-bold" id="lostCustomersValue">100</span>
+                                        <span>500</span>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">
+                                        Average Customer Value
+                                    </label>
+                                    <input type="range" min="50" max="1000" value="200" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider" id="avgValue">
+                                    <div class="flex justify-between text-sm text-gray-500 mt-2">
+                                        <span>$50</span>
+                                        <span class="text-secondary font-bold">$<span id="avgValueDisplay">200</span></span>
+                                        <span>$1000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Results Display -->
+                        <div class="space-y-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-6">Recovery Potential</h3>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-white p-6 rounded-xl border border-gray-200">
+                                    <div class="text-sm text-gray-600 mb-2">Monthly Lost Revenue</div>
+                                    <div class="text-3xl font-bold text-red-600">
+                                        $<span id="monthlyLost">20,000</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-xl border border-gray-200">
+                                    <div class="text-sm text-gray-600 mb-2">Recoverable with AI (80%)</div>
+                                    <div class="text-3xl font-bold text-secondary">
+                                        $<span id="recoverable">16,000</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-primary/10 p-6 rounded-xl border border-primary/20">
+                                    <div class="text-sm text-primary mb-2">Annual Recovery Potential</div>
+                                    <div class="text-4xl font-bold text-primary">
+                                        $<span id="annualRecovery">192,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <button class="btn-primary text-white px-12 py-4 rounded-lg font-semibold text-lg inline-flex items-center group">
+                        Start Recovering Revenue Today
+                        <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center space-x-2 bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-medium mb-6">
+                    <i class="fas fa-star"></i>
+                    <span>Customer Success</span>
+                </div>
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                    Trusted by Growing Businesses
+                </h2>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex items-start mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <span class="text-white font-bold">SC</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-gray-900">Sarah Chen</h4>
+                            <p class="text-gray-600">Restaurant Owner</p>
+                            <div class="flex text-yellow-400 mt-1">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <blockquote class="text-lg text-gray-700 leading-relaxed mb-6">
+                        "Revenue Doctor brought back so many customers who hadn't dined with us in months. 
+                        Our repeat customer rate increased by 187% in just 3 months. The system runs itself!"
+                    </blockquote>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="text-2xl font-bold text-primary">+187%</div>
+                            <div class="text-xs text-gray-500">Return Rate</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-secondary">$45K</div>
+                            <div class="text-xs text-gray-500">Monthly Recovery</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-accent">3mo</div>
+                            <div class="text-xs text-gray-500">To Results</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex items-start mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <span class="text-white font-bold">MR</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-gray-900">Marcus Rodriguez</h4>
+                            <p class="text-gray-600">Restaurant Owner</p>
+                            <div class="flex text-yellow-400 mt-1">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <blockquote class="text-lg text-gray-700 leading-relaxed mb-6">
+                        "We were losing $180K annually from customers who never returned after their first visit. 
+                        Revenue Doctor recovered $144K in the first year alone. The ROI is incredible."
+                    </blockquote>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="text-2xl font-bold text-primary">$144K</div>
+                            <div class="text-xs text-gray-500">Recovered</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-secondary">800%</div>
+                            <div class="text-xs text-gray-500">ROI</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-accent">12mo</div>
+                            <div class="text-xs text-gray-500">Results</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="pricing" class="py-20 bg-gradient-to-br from-primary to-primary-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-5xl font-bold leading-tight mb-8">
+                    Stop Losing Revenue Today
+                </h2>
+                
+                <p class="text-xl mb-12 opacity-90">
+                    Join thousands of restaurants using AI to automatically recover lost revenue. 
+                    Get started today and see results in 7 days.
+                </p>
+                
+                <div class="bg-white/10 backdrop-blur-sm p-8 rounded-2xl mb-12">
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-clock text-2xl"></i>
+                            </div>
+                            <div class="text-2xl font-bold mb-2">5 min</div>
+                            <div class="opacity-80">Setup Time</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-dollar-sign text-2xl"></i>
+                            </div>
+                            <div class="text-2xl font-bold mb-2">$1,000</div>
+                            <div class="opacity-80">Quarterly Payment</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-chart-line text-2xl"></i>
+                            </div>
+                            <div class="text-2xl font-bold mb-2">7 days</div>
+                            <div class="opacity-80">To Results</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="bg-white text-primary px-12 py-4 rounded-lg font-bold text-xl inline-flex items-center group hover:bg-gray-50 transition-all duration-300">
+                    Get Started Today
+                    <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+                
+                <div class="flex items-center justify-center space-x-8 text-sm mt-8 opacity-80">
+                    <div class="flex items-center">
+                        <i class="fas fa-check mr-2"></i>
+                        <span>Setup Fee Waived</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-check mr-2"></i>
+                        <span>$1,000 Quarterly</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-headset mr-2"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-3 mb-6 md:mb-0">
+                    <div class="w-8 h-8 bg-gradient-to-br from-primary to-primary-dark rounded-lg flex items-center justify-center">
+                        <i class="fas fa-chart-line text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold">Revenue Doctor</span>
+                    <span class="text-xs bg-secondary text-white px-2 py-1 rounded-full font-medium">AI</span>
+                </div>
+                <div class="text-gray-400 text-center md:text-right">
+                    <div class="mb-2">© 2024 Revenue Doctor AI. All rights reserved.</div>
+                    <div class="text-sm">Helping businesses recover lost revenue with AI.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Live Revenue Tracker
+        let currentRevenue = 0;
+        const customerNames = ['Sarah M.', 'John D.', 'Emma K.', 'David L.', 'Lisa R.', 'Mike T.', 'Anna S.', 'Chris W.'];
+        
+        function updateLiveRevenue() {
+            const increment = Math.floor(Math.random() * 100) + 50; // $50-150 increments
+            currentRevenue += increment;
+            
+            const revenueElement = document.getElementById('liveRevenue');
+            revenueElement.textContent = '$' + currentRevenue.toLocaleString();
+            
+            // Add customer activity
+            addCustomerActivity(increment);
+        }
+        
+        function addCustomerActivity(amount) {
+            const guestFeed = document.getElementById('guestFeed');
+            const customerName = customerNames[Math.floor(Math.random() * customerNames.length)];
+            
+            const activity = document.createElement('div');
+            activity.className = 'guest-activity p-3 rounded-lg animate-fade-in';
+            activity.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center mr-3">
+                            <span class="text-white text-xs font-bold">${customerName[0]}</span>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900">${customerName}</div>
+                            <div class="text-xs text-gray-600">Returned customer</div>
+                        </div>
+                    </div>
+                    <div class="text-secondary font-bold">+$${amount}</div>
+                </div>
+            `;
+            
+            guestFeed.insertBefore(activity, guestFeed.firstChild);
+            
+            // Keep only last 3 activities visible
+            while (guestFeed.children.length > 3) {
+                guestFeed.removeChild(guestFeed.lastChild);
+            }
+        }
+
+        // Animated Counter
+        function animateCounters() {
+            const counters = document.querySelectorAll('[data-count]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.getAttribute('data-count'));
+                        let current = 0;
+                        const increment = target / 50;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            entry.target.textContent = Math.floor(current);
+                        }, 50);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            counters.forEach(counter => observer.observe(counter));
+        }
+
+        // Revenue Calculator
+        function initCalculator() {
+            const lostCustomersSlider = document.getElementById('lostCustomers');
+            const avgValueSlider = document.getElementById('avgValue');
+            
+            function updateCalculator() {
+                const lostCustomers = parseInt(lostCustomersSlider.value);
+                const avgValue = parseInt(avgValueSlider.value);
+                
+                // Update display values
+                document.getElementById('lostCustomersValue').textContent = lostCustomers;
+                document.getElementById('avgValueDisplay').textContent = avgValue;
+                
+                // Calculate losses and recovery
+                const monthlyLost = lostCustomers * avgValue;
+                const recoverable = Math.floor(monthlyLost * 0.8); // 80% recovery rate
+                const annualRecovery = recoverable * 12;
+                
+                // Update results
+                document.getElementById('monthlyLost').textContent = monthlyLost.toLocaleString();
+                document.getElementById('recoverable').textContent = recoverable.toLocaleString();
+                document.getElementById('annualRecovery').textContent = annualRecovery.toLocaleString();
+            }
+            
+            lostCustomersSlider.addEventListener('input', updateCalculator);
+            avgValueSlider.addEventListener('input', updateCalculator);
+            
+            // Initial calculation
+            updateCalculator();
+        }
+
+        // Navbar Scroll Effect
+        function initNavbar() {
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('shadow-lg');
+                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                } else {
+                    navbar.classList.remove('shadow-lg');
+                    navbar.style.background = 'rgba(255, 255, 255, 0.8)';
+                }
+            });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            animateCounters();
+            initCalculator();
+            initNavbar();
+            
+            // Start live revenue updates
+            setInterval(updateLiveRevenue, 4000); // Every 4 seconds
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95f89bb08108c34e',t:'MTc1MjU3NTY3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
